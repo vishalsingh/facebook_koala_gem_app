@@ -1,0 +1,73 @@
+<h1>Welcome#index</h1>
+<p>Find me in app/views/welcome/index.html.erb</p>
+<fieldset>
+<legend>Friends Count</legend>
+
+
+  <% if current_user %>
+  Number of Friends: <%= current_user.friends_count(session[:access_token]) %>
+<% end %>
+</fieldset>
+
+<%#= debug current_user.friends_list(session[:access_token]) if !current_user.blank? %>
+<br />
+
+<fieldset>
+  <legend>All Friend List</legend>
+<% if !current_user.blank?  and !current_user.friends_list(session[:access_token]).blank? %>
+<table border=1>
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Status</th>
+    <th>Location</th>
+
+  </tr>
+
+    <% for friend in current_user.friends_list(session[:access_token])  %>
+          <tr>
+            <td><b><%= friend["id"]%> </b></td>
+          
+         
+            <td><%= friend["name"] %></td>
+         
+           <td><%= friend["relationship_status"]%></td>
+          <td><%= friend["location"]["name"] if !friend["location"].blank? %></td>
+          </tr>
+        <% end %>
+    <table>
+    	<%else%>
+    	No Record
+<% end %>
+</fieldset>
+
+
+<fieldset>
+  <legend>Single Friend List</legend>
+<% if !current_user.blank?  and !current_user.status_single_friend(session[:access_token]).blank? %>
+<table border=1>
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Status</th>
+    <th>Location</th>
+
+  </tr>
+
+    <% for friend in current_user.status_single_friend(session[:access_token])  %>
+          <tr>
+            <td><b><%= friend["id"]%> </b></td>
+          
+         
+            <td><%= friend["name"] %></td>
+         
+           <td><%= friend["relationship_status"]%></td>
+          <td><%= friend["location"]["name"] if !friend["location"].blank? %></td>
+          </tr>
+        <% end %>
+    <table>
+      <%else%>
+      No Record
+<% end %>
+</fieldset>
+
